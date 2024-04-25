@@ -1,0 +1,16 @@
+{
+    "name": "think-codee/laravel-command-bus",
+    "description": "description",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Razvan Andrei Cureteu",
+            "email": "cureteurazvanandrei@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.0"
+    },
+    "type": "library"
+}
