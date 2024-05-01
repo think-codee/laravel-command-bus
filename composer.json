@@ -1,5 +1,6 @@
 {
     "name": "think-codee/laravel-command-bus",
+    "type": "library",
     "description": "description",
     "license": "proprietary",
     "authors": [
@@ -12,5 +13,16 @@
         "php": "^8.2",
         "laravel/framework": "^11.0"
     },
-    "type": "library"
+    "autoload": {
+        "psr-4": {
+            "ThinkCodee\\Laravel\\CommandBus\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ThinkCodee\\Laravel\\CommandBusServiceProvider"
+            ]
+        }
+    }
 }
