@@ -17,11 +17,11 @@ class BusRegistrar
         $this->validateInterface($data->interface, $data->class);
         $this->validateClass($data->class);
 
-        $this->app->instance($data->interface, function () use ($data) {
+        $this->app->instance($data->interface, function (Container $app) use ($data) {
             return new $data->class(
-                (new CommandDispatcher())
+                (new CommandDispatcher($app))
                     ->handlerResolver($data->handlerResolver)
-                    ->handlerMethodResolver($data->handlerMethodResolver)
+                    ->handlerMethod($data->handlerMethod)
                     ->middleware($data->middleware)
             );
         });
@@ -31,7 +31,7 @@ class BusRegistrar
 
     private function validateInterface(string $interface, string $class): void
     {
-        if (!$interface instanceof CommandBus) {
+        if (!in_array(CommandBus::class, class_implements($interface))) {
             throw BusBindingException::invalidInterface($class, $interface);
         }
     }

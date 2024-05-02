@@ -13,8 +13,8 @@ class BusData
             $data['interface'],
             $data['middleware'],
             $data['alias'],
-            $data['handlerResolver'],
-            $data['handlerMethodResolver']
+            $data['handler_resolver'],
+            $data['handler_method']
         );
     }
 
@@ -23,7 +23,7 @@ class BusData
         public string $interface,
         public array $middleware,
         public string $alias,
+        public ?string $handlerMethod = null,
         public ?string $handlerResolver = null,
-        public ?string $handlerMethodResolver = null
     ) {}
 }

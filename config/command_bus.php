@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+
 return [
     'buses' => [
         'command' => [
@@ -9,8 +10,8 @@ return [
             'interface' => null,
             'alias' => 'bus.command',
             'middleware' => [],
-            'handler_resolver' => null,
-            'handler_method_resolver' => null,
+            'handler_resolver' => null, //default SuffixHandlerResolver::class
+            'handler_method' => null, //default handle
         ],
     ]
 ];

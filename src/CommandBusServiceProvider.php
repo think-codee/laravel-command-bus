@@ -8,11 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-//        $this->registerBuses();
-    }
-
     public function boot(): void
     {
         $this->bootBuses();
@@ -20,14 +15,14 @@ class CommandBusServiceProvider extends ServiceProvider
 
     private function bootBuses(): void
     {
-        foreach (config('command_bus.buses') as $name => $data) {
+        foreach (config('command_bus.buses') as $data) {
             $this->newBusRegistrar()
-                ->register($data);
+                ->register(BusData::fromArray($data));
         }
     }
 
     private function newBusRegistrar(): BusRegistrar
     {
-        return new BusRegistrar();
+        return new BusRegistrar($this->app);
     }
 }
