@@ -68,7 +68,9 @@ class CommandDispatcher
         $attributes = (new ReflectionClass($command))
             ->getAttributes(Handler::class);
 
-        return empty($attributes) ? $this->resolveHandler($command) : $attributes[0]->newInstance()->handler;
+        return empty($attributes)
+            ? $this->resolveHandler($command)
+            : $this->app->make($attributes[0]->newInstance()->handler);
     }
 
     private function resolveHandler(Command $command): object
