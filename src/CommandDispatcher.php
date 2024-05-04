@@ -128,6 +128,10 @@ class CommandDispatcher
 
     protected function resolveHandler(Command $command): object
     {
+        if (!class_exists($this->handlerResolver)) {
+            throw InvalidCommandHandlerResolverException::handlerResolverDoesNotExists($this->handlerResolver);
+        }
+
         if (!in_array(HandlerResolver::class, class_implements($this->handlerResolver))) {
             throw InvalidCommandHandlerResolverException::mustImplementInterface($this->handlerResolver);
         }

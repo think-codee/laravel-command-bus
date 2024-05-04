@@ -9,9 +9,11 @@ use ThinkCodee\Laravel\CommandBus\Contracts\HandlerResolver;
 
 class InvalidCommandHandlerResolverException extends Exception
 {
-    public static function emptyResolver(): static
+    public static function handlerResolverDoesNotExists(string $resolver): static
     {
-        return new static('No command handler resolver specified');
+        return new static(
+            sprintf('%s does not exists', $resolver)
+        );
     }
 
     public static function mustImplementInterface(string $resolver): static
