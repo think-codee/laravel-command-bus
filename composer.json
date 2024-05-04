@@ -23,11 +23,19 @@
             "ThinkCodee\\Laravel\\CommandBus\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ThinkCodee\\Laravel\\CommandBus\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "ThinkCodee\\Laravel\\CommandBusServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
