@@ -17,7 +17,7 @@ class BusRegistrar
         $this->validateInterface($data->interface, $data->class);
         $this->validateClass($data->class);
 
-        $this->app->instance($data->interface, function (Container $app) use ($data) {
+        $this->app->bind($data->interface, function (Container $app) use ($data) {
             return new $data->class(
                 (new CommandDispatcher($app))
                     ->handlerResolver($data->handlerResolver)
