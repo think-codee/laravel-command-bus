@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
-use Orchestra\Testbench\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
-use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Exceptions\HandlerResolvingException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerResolverException;
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
@@ -16,17 +14,8 @@ use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerA
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithInvalidHandlerAttribute;
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestInvalidHandlerResolver;
 
-class CommandDispatcherHandlerResolvingTest extends TestCase
+class CommandDispatcherHandlerResolvingTest extends CommandDispatcherTestCase
 {
-    private CommandDispatcher $commandDispatcher;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->commandDispatcher = new CommandDispatcher($this->app);
-    }
-
     public function testItResolvesHandlerFromAttribute(): void
     {
         $method = $this->getHandlerMethod();

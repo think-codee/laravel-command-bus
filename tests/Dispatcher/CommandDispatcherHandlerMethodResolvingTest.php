@@ -4,26 +4,14 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
-use Orchestra\Testbench\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
-use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
 use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAndMethodAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestOtherCommand;
 
-class CommandDispatcherHandlerMethodResolvingTest extends TestCase
+class CommandDispatcherHandlerMethodResolvingTest extends CommandDispatcherTestCase
 {
-    private CommandDispatcher $commandDispatcher;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->commandDispatcher = new CommandDispatcher($this->app);
-    }
-
     public function testItResolvesMethodFromAttribute()
     {
         $method = $this->getMethod();

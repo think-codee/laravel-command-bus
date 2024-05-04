@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
-use Orchestra\Testbench\TestCase;
 use ReflectionClass;
-use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Resolvers\SuffixHandlerResolver;
 
-class CommandDispatcherHandlerTest extends TestCase
+class CommandDispatcherHandlerTest extends CommandDispatcherTestCase
 {
-    private CommandDispatcher $commandDispatcher;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->commandDispatcher = new CommandDispatcher($this->app);
-    }
-
     public function testItSetsHandlerResolver(): void
     {
         $this->commandDispatcher
