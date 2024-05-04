@@ -11,7 +11,7 @@ return [
             'middleware' => [
                 'method' => 'handle'
             ],
-            'handler_resolver' => \ThinkCodee\Laravel\CommandBus\Handler\SuffixHandlerResolver::class,
+            'handler_resolver' => \ThinkCodee\Laravel\CommandBus\Resolvers\SuffixHandlerResolver::class,
             'handler_method' => 'handle',
         ],
     ]

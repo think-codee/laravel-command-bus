@@ -12,9 +12,10 @@ use ThinkCodee\Laravel\CommandBus\Attributes\Handler;
 use ThinkCodee\Laravel\CommandBus\Attributes\Middleware;
 use ThinkCodee\Laravel\CommandBus\Contracts\Command;
 use ThinkCodee\Laravel\CommandBus\Contracts\HandlerResolver;
+use ThinkCodee\Laravel\CommandBus\Exceptions\HandlerResolvingException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerResolverException;
-use ThinkCodee\Laravel\CommandBus\Handler\SuffixHandlerResolver;
+use ThinkCodee\Laravel\CommandBus\Resolvers\SuffixHandlerResolver;
 use Illuminate\Support\Facades\Pipeline;
 
 class CommandDispatcher
@@ -111,7 +112,18 @@ class CommandDispatcher
 
         return empty($attributes)
             ? $this->resolveHandler($command)
-            : $this->app->make($attributes[0]->newInstance()->handler);
+            : $this->instantiateHandlerFromAttributes($attributes);
+    }
+
+    protected function instantiateHandlerFromAttributes(array $attributes): object
+    {
+        $handler = $attributes[0]->newInstance()->handler;
+
+        if (!class_exists($handler)) {
+            throw HandlerResolvingException::handlerDoesNotExists($handler);
+        }
+
+        return $this->app->make($handler);
     }
 
     protected function resolveHandler(Command $command): object
