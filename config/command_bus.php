@@ -8,9 +8,7 @@ return [
             'class' => null,
             'interface' => null,
             'alias' => 'bus.default',
-            'middleware' => [
-
-            ],
+            'middleware' => [],
             'handler_resolver' => \ThinkCodee\Laravel\CommandBus\Resolvers\SuffixHandlerResolver::class,
             'handler_method' => 'handle',
         ],

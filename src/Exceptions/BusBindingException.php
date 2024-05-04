@@ -10,6 +10,17 @@ use ThinkCodee\Laravel\CommandBus\Contracts\CommandBus;
 
 class BusBindingException extends Exception
 {
+    public static function interfaceDoesNotExists(string $bus, string $interface): static
+    {
+        return new static(
+            sprintf(
+                'The given interface %s of %s does not exist.',
+                $interface,
+                $bus
+            )
+        );
+    }
+
     public static function invalidInterface(string $bus, string $interface): static
     {
         return new static(
@@ -18,6 +29,16 @@ class BusBindingException extends Exception
                 $bus,
                 CommandBus::class,
                 $interface
+            )
+        );
+    }
+
+    public static function classDoesNotExists(string $bus): static
+    {
+        return new static(
+            sprintf(
+                'The given bus class %s does not exist.',
+                $bus
             )
         );
     }

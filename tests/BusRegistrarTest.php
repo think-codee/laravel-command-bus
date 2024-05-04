@@ -38,6 +38,20 @@ class BusRegistrarTest extends TestCase
         $this->assertInstanceOf(TestBus::class, $this->app->make('command.bus.test'));
     }
 
+    public function testItFailsWhenInterfaceDoesNotExists(): void
+    {
+        $this->expectException(BusBindingException::class);
+
+        $this->busRegistrar->register(
+            new BusData(
+                TestBus::class,
+                'InvalidInterface',
+                [],
+                'command.bus.test'
+            )
+        );
+    }
+
     public function testItFailsWhenInvalidInterface(): void
     {
         $this->expectException(BusBindingException::class);
@@ -52,7 +66,21 @@ class BusRegistrarTest extends TestCase
         );
     }
 
-    public function testItFailsHenInvalidClass(): void
+    public function testItFailsWhenClassDoesNotExists(): void
+    {
+        $this->expectException(BusBindingException::class);
+
+        $this->busRegistrar->register(
+            new BusData(
+                'InvalidClass',
+                TestBusInterface::class,
+                [],
+                'command.bus.test'
+            )
+        );
+    }
+
+    public function testItFailsWhenInvalidClass(): void
     {
         $this->expectException(BusBindingException::class);
 

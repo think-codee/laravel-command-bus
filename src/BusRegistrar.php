@@ -14,8 +14,8 @@ class BusRegistrar
 
     public function register(BusData $data): void
     {
-        $this->validateInterface($data->interface, $data->class);
         $this->validateClass($data->class);
+        $this->validateInterface($data->interface, $data->class);
 
         $this->app->bind($data->interface, function (Container $app) use ($data) {
             return new $data->class(
@@ -31,6 +31,10 @@ class BusRegistrar
 
     private function validateInterface(string $interface, string $class): void
     {
+        if (!interface_exists($interface)) {
+            throw BusBindingException::interfaceDoesNotExists($class, $interface);
+        }
+
         if (!in_array(CommandBus::class, class_implements($interface))) {
             throw BusBindingException::invalidInterface($class, $interface);
         }
@@ -38,6 +42,10 @@ class BusRegistrar
 
     private function validateClass(string $class): void
     {
+        if (!class_exists($class)) {
+            throw BusBindingException::invalidClass($class);
+        }
+
         if (!is_subclass_of($class, Bus::class)) {
             throw BusBindingException::invalidClass($class);
         }
