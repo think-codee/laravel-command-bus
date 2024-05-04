@@ -27,6 +27,6 @@ class SuffixHandlerResolver implements HandlerResolver
 
     private function resolveClassName(Command $command): string
     {
-        return Str::studly(sprintf(`%s %s`, $command::class, 'handler'));
+        return Str::studly(sprintf('%s %s', $command::class, 'handler'));
     }
 }
