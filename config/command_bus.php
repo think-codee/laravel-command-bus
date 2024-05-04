@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-
 return [
     'buses' => [
-        'command' => [
+        'default' => [
             'class' => null,
             'interface' => null,
-            'alias' => 'bus.command',
-            'middleware' => [],
-            'handler_resolver' => null, //default SuffixHandlerResolver::class
-            'handler_method' => null, //default handle
+            'alias' => 'bus.default',
+            'middleware' => [
+                'method' => 'handle'
+            ],
+            'handler_resolver' => \ThinkCodee\Laravel\CommandBus\Handler\SuffixHandlerResolver::class,
+            'handler_method' => 'handle',
         ],
     ]
 ];

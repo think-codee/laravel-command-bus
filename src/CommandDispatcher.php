@@ -7,12 +7,15 @@ namespace ThinkCodee\Laravel\CommandBus;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use ReflectionClass;
+use ThinkCodee\Laravel\CommandBus\Attributes\ResetMiddleware;
 use ThinkCodee\Laravel\CommandBus\Attributes\Handler;
+use ThinkCodee\Laravel\CommandBus\Attributes\Middleware;
 use ThinkCodee\Laravel\CommandBus\Contracts\Command;
 use ThinkCodee\Laravel\CommandBus\Contracts\HandlerResolver;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerResolverException;
 use ThinkCodee\Laravel\CommandBus\Handler\SuffixHandlerResolver;
+use Illuminate\Support\Facades\Pipeline;
 
 class CommandDispatcher
 {
@@ -26,6 +29,11 @@ class CommandDispatcher
 
     public function dispatchCommand(Command $command): mixed
     {
+        $callable = $this->getHandlerCallable($command);
+
+        return Pipeline::send($command)
+            ->through($this->getMiddleware($callable))
+            ->then(fn (Command $command) => $this->app->call($callable, compact('command')));
     }
 
     public function handlerResolver(?string $handlerResolver = null): static
@@ -53,7 +61,40 @@ class CommandDispatcher
         return $this;
     }
 
-    public function getHandlerCallable(Command $command): callable
+    protected function getMiddleware(callable $callable): array
+    {
+        $middleware = $this->middleware;
+
+        [$handler] = $callable;
+
+        $reflection = new ReflectionClass($handler);
+
+        if (!empty($reflection->getAttributes(ResetMiddleware::class))) {
+            $middleware = [];
+        }
+
+        return $this->addHandlerMiddleware(
+            $middleware,
+            $reflection->getAttributes(Middleware::class)
+        );
+    }
+
+    protected function addHandlerMiddleware(array $middleware, array $attributes): array
+    {
+        foreach ($attributes as $attribute) {
+            $instance = $attribute->newInstance();
+
+            if ($instance->prepend) {
+                $middleware = array_merge($instance->middleware, $middleware);
+            } else {
+                $middleware = array_merge($middleware, $instance->middleware);
+            }
+        }
+
+        return $middleware;
+    }
+
+    protected function getHandlerCallable(Command $command): callable
     {
        $handler = $this->getHandler($command);
        $method = $this->getMethod($command);
@@ -63,7 +104,7 @@ class CommandDispatcher
        return [$handler, $method];
     }
 
-    private function getHandler(Command $command): object
+    protected function getHandler(Command $command): object
     {
         $attributes = (new ReflectionClass($command))
             ->getAttributes(Handler::class);
@@ -73,7 +114,7 @@ class CommandDispatcher
             : $this->app->make($attributes[0]->newInstance()->handler);
     }
 
-    private function resolveHandler(Command $command): object
+    protected function resolveHandler(Command $command): object
     {
         if (!in_array(HandlerResolver::class, class_implements($this->handlerResolver))) {
             throw InvalidCommandHandlerResolverException::mustImplementInterface($this->handlerResolver);
@@ -82,7 +123,7 @@ class CommandDispatcher
         return $this->app->make($this->handlerResolver)->resolve($command);
     }
 
-    private function getMethod(Command $command)
+    protected function getMethod(Command $command)
     {
         $attributes = (new ReflectionClass($command))
             ->getAttributes(Handler::class);
@@ -92,7 +133,7 @@ class CommandDispatcher
             : $attributes[0]->newInstance()->method;
     }
 
-    private function validateCallable(object $handler, string $method): void
+    protected function validateCallable(object $handler, string $method): void
     {
         if (!method_exists($handler, $method)) {
             throw InvalidCommandHandlerException::invalidMethod($handler::class, $method);

@@ -12,7 +12,7 @@ class InvalidCommandHandlerException extends Exception
     {
         return new static(
             sprintf(
-                '%s does not implement %s',
+                '%s does not implement %s method',
                 $handler,
                 $method
             )
