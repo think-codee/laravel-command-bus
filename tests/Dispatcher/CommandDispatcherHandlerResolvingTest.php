@@ -8,11 +8,11 @@ use ReflectionClass;
 use ReflectionMethod;
 use ThinkCodee\Laravel\CommandBus\Exceptions\HandlerResolvingException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerResolverException;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttributeHandler;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithInvalidHandlerAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestInvalidHandlerResolver;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommand;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithHandlerAttributeHandler;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithInvalidHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestInvalidHandlerResolver;
 
 class CommandDispatcherHandlerResolvingTest extends CommandDispatcherTestCase
 {

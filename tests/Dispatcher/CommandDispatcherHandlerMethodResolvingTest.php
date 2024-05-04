@@ -6,9 +6,9 @@ namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
 use ReflectionClass;
 use ReflectionMethod;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAndMethodAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommand;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithHandlerAndMethodAttribute;
 
 class CommandDispatcherHandlerMethodResolvingTest extends CommandDispatcherTestCase
 {

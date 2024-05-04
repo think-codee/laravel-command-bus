@@ -6,7 +6,7 @@ namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
 use ReflectionClass;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerException;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\DispatcherHandler\TestCommandWithHandlerAttribute;
 
 class CommandDispatcherHandlerValidationTest extends CommandDispatcherTestCase
 {
