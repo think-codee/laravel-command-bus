@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ThinkCodee\Laravel\CommandBus\Tests\Fixtures;
+namespace ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Registrar;
 
 use ThinkCodee\Laravel\CommandBus\Contracts\CommandBus;
 

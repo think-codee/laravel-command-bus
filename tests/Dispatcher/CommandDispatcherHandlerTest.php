@@ -8,7 +8,6 @@ use Orchestra\Testbench\TestCase;
 use ReflectionClass;
 use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Resolvers\SuffixHandlerResolver;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestHandlerResolver;
 
 class CommandDispatcherHandlerTest extends TestCase
 {
@@ -24,7 +23,7 @@ class CommandDispatcherHandlerTest extends TestCase
     public function testItSetsHandlerResolver(): void
     {
         $this->commandDispatcher
-            ->handlerResolver(TestHandlerResolver::class);
+            ->handlerResolver(SuffixHandlerResolver::class);
 
         $resolverProperty = (new ReflectionClass($this->commandDispatcher))
             ->getProperty('handlerResolver');
@@ -32,7 +31,7 @@ class CommandDispatcherHandlerTest extends TestCase
         $resolverProperty->setAccessible(true);
 
         $this->assertEquals(
-            TestHandlerResolver::class,
+            SuffixHandlerResolver::class,
             $resolverProperty->getValue($this->commandDispatcher)
         );
     }

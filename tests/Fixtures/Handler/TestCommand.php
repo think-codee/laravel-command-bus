@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ThinkCodee\Laravel\CommandBus\Tests\Fixtures;
+namespace ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler;
 
 use ThinkCodee\Laravel\CommandBus\Contracts\Command;
 
 class TestCommand implements Command
 {
-    public function __construct(public int $value) {}
+    public function __construct() {}
 }

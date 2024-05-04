@@ -8,9 +8,10 @@ use Orchestra\Testbench\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommand;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommandWithHandlerAndMethodAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAndMethodAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestOtherCommand;
 
 class CommandDispatcherHandlerMethodResolvingTest extends TestCase
 {
@@ -53,7 +54,7 @@ class CommandDispatcherHandlerMethodResolvingTest extends TestCase
 
         $this->assertEquals(
             'someMethod',
-            $method->invoke($this->commandDispatcher, new TestCommand(1))
+            $method->invoke($this->commandDispatcher, new TestCommand)
         );
     }
 

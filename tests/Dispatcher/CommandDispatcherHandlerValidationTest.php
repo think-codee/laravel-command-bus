@@ -8,7 +8,7 @@ use Orchestra\Testbench\TestCase;
 use ReflectionClass;
 use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerException;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
 
 class CommandDispatcherHandlerValidationTest extends TestCase
 {

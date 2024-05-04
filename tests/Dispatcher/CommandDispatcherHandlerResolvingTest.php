@@ -10,11 +10,11 @@ use ReflectionMethod;
 use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
 use ThinkCodee\Laravel\CommandBus\Exceptions\HandlerResolvingException;
 use ThinkCodee\Laravel\CommandBus\Exceptions\InvalidCommandHandlerResolverException;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommand;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommandWithHandlerAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCommandWithInvalidHandlerAttribute;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestCustomCommandHandler;
-use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\TestInvalidHandlerResolver;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommand;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithHandlerAttributeHandler;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestCommandWithInvalidHandlerAttribute;
+use ThinkCodee\Laravel\CommandBus\Tests\Fixtures\Handler\TestInvalidHandlerResolver;
 
 class CommandDispatcherHandlerResolvingTest extends TestCase
 {
@@ -32,7 +32,7 @@ class CommandDispatcherHandlerResolvingTest extends TestCase
         $method = $this->getHandlerMethod();
 
         $this->assertInstanceOf(
-            TestCustomCommandHandler::class,
+            TestCommandWithHandlerAttributeHandler::class,
             $method->invoke($this->commandDispatcher, new TestCommandWithHandlerAttribute())
         );
     }
@@ -44,7 +44,7 @@ class CommandDispatcherHandlerResolvingTest extends TestCase
         $this->expectException(HandlerResolvingException::class);
 
         $this->assertInstanceOf(
-            TestCustomCommandHandler::class,
+            'CommandHandler',
             $method->invoke($this->commandDispatcher, new TestCommandWithInvalidHandlerAttribute())
         );
     }
@@ -58,22 +58,22 @@ class CommandDispatcherHandlerResolvingTest extends TestCase
         $this->expectException(InvalidCommandHandlerResolverException::class);
 
         $this->assertInstanceOf(
-            TestCustomCommandHandler::class,
-            $method->invoke($this->commandDispatcher, new TestCommand(1))
+            'CommandHandler',
+            $method->invoke($this->commandDispatcher, new TestCommand())
         );
     }
 
     public function testItFailsWhenHandlerResolverNotFound(): void
     {
-        $this->commandDispatcher->handlerResolver('some invalid');
+        $this->commandDispatcher->handlerResolver('InvalidHandlerResolver');
 
         $method = $this->getHandlerMethod();
 
         $this->expectException(InvalidCommandHandlerResolverException::class);
 
         $this->assertInstanceOf(
-            TestCustomCommandHandler::class,
-            $method->invoke($this->commandDispatcher, new TestCommand(1))
+            TestCommandWithHandlerAttributeHandler::class,
+            $method->invoke($this->commandDispatcher, new TestCommand())
         );
     }
 
