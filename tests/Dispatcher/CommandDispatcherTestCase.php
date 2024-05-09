@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests\Dispatcher;
 
-use Orchestra\Testbench\TestCase;
 use ThinkCodee\Laravel\CommandBus\CommandDispatcher;
+use ThinkCodee\Laravel\CommandBus\Tests\TestCase;
 
 class CommandDispatcherTestCase extends TestCase
 {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests;
 
-use Orchestra\Testbench\TestCase;
 use ThinkCodee\Laravel\CommandBus\BusData;
 use ThinkCodee\Laravel\CommandBus\BusRegistrar;
 use ThinkCodee\Laravel\CommandBus\Exceptions\BusBindingException;

@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace ThinkCodee\Laravel\CommandBus;
 
 use Illuminate\Support\ServiceProvider;
+use ThinkCodee\Laravel\CommandBus\Commands\GenerateCommand;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->bootBuses();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                GenerateCommand::class,
+            ]);
+        }
     }
 
     private function bootBuses(): void

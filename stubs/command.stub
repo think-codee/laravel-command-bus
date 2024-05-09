@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Commands\{{ command }};
+
+use ThinkCodee\Laravel\CommandBus\Contracts\Command;
+
+class {{ command }} implements Command
+{
+}

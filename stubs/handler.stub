@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Commands\{{ command }};
+
+class {{ command }}Handler
+{
+    public function handle({{ command }} $command): mixed
+    {
+    }
+}
