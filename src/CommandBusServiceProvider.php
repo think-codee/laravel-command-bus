@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ThinkCodee\Laravel\CommandBus;
 
 use Illuminate\Support\ServiceProvider;
+use ThinkCodee\Laravel\CommandBus\Commands\GenerateBus;
 use ThinkCodee\Laravel\CommandBus\Commands\GenerateCommand;
 
 class CommandBusServiceProvider extends ServiceProvider
@@ -16,6 +17,7 @@ class CommandBusServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 GenerateCommand::class,
+                GenerateBus::class
             ]);
         }
     }

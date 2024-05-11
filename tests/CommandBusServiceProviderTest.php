@@ -10,6 +10,13 @@ class CommandBusServiceProviderTest extends TestCase
 {
     public function testItRegistersCommands(): void
     {
-        $this->assertArrayHasKey('command-bus:make:command', Artisan::all());
+        $commands = [
+            'command-bus:make:command',
+            'command-bus:make:bus'
+        ];
+
+        foreach ($commands as $command) {
+            $this->assertArrayHasKey($command, Artisan::all());
+        }
     }
 }

@@ -11,9 +11,9 @@ class GenerateBus extends GeneratorCommand
 
     protected $description = 'Create a bus';
 
-    protected string $successMessage = 'Bus created successfully';
+    protected string $successMessage = 'Bus created successfully!';
 
-    protected string $alreadyExistsMessage = 'Bus already exists';
+    protected string $alreadyExistsMessage = 'Bus already exists!';
 
     protected function directoryPath(): string
     {

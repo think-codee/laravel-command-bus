@@ -4,23 +4,14 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Tests\Commands;
 
-use Illuminate\Support\Facades\File;
-use ThinkCodee\Laravel\CommandBus\Tests\TestCase;
-
-class GenerateCommandTest extends TestCase
+class GenerateCommandTest extends GeneratorCommandTestCase
 {
-    protected function tearDown(): void
-    {
-        File::deleteDirectory(app_path('Commands'));
-
-        parent::tearDown();
-    }
-
     public function testItGeneratesCommandWithHandler(): void
     {
         $commandName = 'Test';
 
         $this->artisan('command-bus:make:command', ['name' => $commandName])
+            ->expectsOutput('Command created successfully!')
             ->assertSuccessful();
 
         $this->assertFileExists(app_path("Commands/$commandName/$commandName.php"));
@@ -32,11 +23,20 @@ class GenerateCommandTest extends TestCase
         $commandName = 'Test';
 
         $this->artisan('command-bus:make:command', ['name' => $commandName])
+            ->expectsOutput('Command created successfully!')
             ->assertSuccessful()
             ->run();
 
         $this->artisan('command-bus:make:command', ['name' => $commandName])
+            ->expectsOutput('Command already exists!')
             ->assertFailed()
             ->run();
+    }
+
+    protected function getTeardownDirectories(): array
+    {
+        return [
+            app_path('Commands'),
+        ];
     }
 }
