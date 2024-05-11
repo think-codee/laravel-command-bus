@@ -4,56 +4,47 @@ declare(strict_types=1);
 
 namespace ThinkCodee\Laravel\CommandBus\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-
-class GenerateCommand extends Command
+class GenerateCommand extends GeneratorCommand
 {
-    use HasStubs;
+    protected $signature = 'command-bus:make:command
+                            {name : The name of the command}';
 
-    protected $signature = "command-bus:make:command
-                            {name : The name of the command}";
+    protected $description = 'Generate a new command';
 
-    protected $description = "Generate a new command";
+    protected string $successMessage = 'Command created successfully!';
 
-    public function handle(): int
+    protected string $alreadyExistsMessage = 'Command already exists!';
+
+    protected function directoryPath(): string
     {
-        if (File::exists($this->directoryPath())) {
-            $this->error("Command already exists!");
+        return app_path("Commands/{$this->argument('name')}");
+    }
 
-            return Command::FAILURE;
-        }
-
-        $this->makeDirectory();
+    protected function generateFiles(): void
+    {
         $this->generateCommand();
         $this->generateHandler();
-
-        $this->info('Command created successfully!');
-
-        return Command::SUCCESS;
     }
 
     private function generateCommand(): void
     {
-        $stub = $this->getStub('command', ['command' => $this->argument('name')]);
-
-        File::put("{$this->directoryPath()}/{$this->argument('name')}.php", $stub);
+        $this->generateFile(
+            'command',
+            [
+                'command' => $this->argument('name'),
+            ],
+            "{$this->directoryPath()}/{$this->argument('name')}.php"
+        );
     }
 
     private function generateHandler(): void
     {
-        $stub = $this->getStub('handler', ['command' => $this->argument('name')]);
-
-        File::put("{$this->directoryPath()}/{$this->argument('name')}Handler.php", $stub);
-    }
-
-    private function makeDirectory(): void
-    {
-        File::makeDirectory($this->directoryPath(), 0777, true);
-    }
-
-    private function directoryPath(): string
-    {
-        return app_path("Commands/{$this->argument('name')}");
+        $this->generateFile(
+            'handler',
+            [
+                'command' => $this->argument('name'),
+            ],
+            "{$this->directoryPath()}/{$this->argument('name')}Handler.php"
+        );
     }
 }

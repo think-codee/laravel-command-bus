@@ -10,7 +10,7 @@ trait HasStubs
 {
     private const BASE_PATH = __DIR__ . '/../../stubs';
 
-    private function getStub(string $name, array $replacements = []): string
+    protected function getStub(string $name, array $replacements = []): string
     {
         $stub = File::get($this->stubPath($name));
 
@@ -21,7 +21,7 @@ trait HasStubs
         return $stub;
     }
 
-    private function stubPath(string $name): string
+    protected function stubPath(string $name): string
     {
         return self::BASE_PATH . "/$name.stub";
     }
