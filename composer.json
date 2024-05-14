@@ -3,6 +3,7 @@
     "type": "library",
     "description": "description",
     "license": "proprietary",
+    "version": "v1.0.0",
     "authors": [
         {
             "name": "Razvan Andrei Cureteu",
@@ -31,7 +32,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ThinkCodee\\Laravel\\CommandBusServiceProvider"
+                "ThinkCodee\\Laravel\\CommandBus\\CommandBusServiceProvider"
             ]
         }
     },

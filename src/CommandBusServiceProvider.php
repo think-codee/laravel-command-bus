@@ -10,17 +10,18 @@ use ThinkCodee\Laravel\CommandBus\Commands\GenerateCommand;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/command_bus.php', 'command_bus'
-        );
-    }
-
     public function boot(): void
     {
+        $this->bootConfig();
         $this->bootBuses();
         $this->bootCommands();
+    }
+
+    private function bootConfig(): void
+    {
+        $this->publishes([
+            __DIR__.'/../config/command_bus.php' => config_path('command_bus.php'),
+        ], 'command-bus-config');
     }
 
     private function bootBuses(): void

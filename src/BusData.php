@@ -23,7 +23,8 @@ class BusData
         public string $interface,
         public array $middleware,
         public string $alias,
-        public ?string $handlerMethod = null,
         public ?string $handlerResolver = null,
+        public ?string $handlerMethod = null,
+
     ) {}
 }
