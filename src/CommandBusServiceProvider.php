@@ -10,16 +10,17 @@ use ThinkCodee\Laravel\CommandBus\Commands\GenerateCommand;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/command_bus.php', 'command_bus'
+        );
+    }
+
     public function boot(): void
     {
         $this->bootBuses();
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                GenerateCommand::class,
-                GenerateBus::class
-            ]);
-        }
+        $this->bootCommands();
     }
 
     private function bootBuses(): void
@@ -33,5 +34,15 @@ class CommandBusServiceProvider extends ServiceProvider
     private function newBusRegistrar(): BusRegistrar
     {
         return new BusRegistrar($this->app);
+    }
+
+    private function bootCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                GenerateCommand::class,
+                GenerateBus::class
+            ]);
+        }
     }
 }
