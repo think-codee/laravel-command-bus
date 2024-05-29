@@ -8,13 +8,13 @@ class GenerateBusTest extends GeneratorCommandTestCase
 {
     public function testItGeneratesBusWithInterface(): void
     {
-        $busName = 'Test';
+        $busName = 'TestBus';
 
         $this->artisan('command-bus:make:bus', ['name' => $busName])
             ->expectsOutput('Bus created successfully!')
             ->assertSuccessful();
 
-        $this->assertFileExists(app_path("Buses/$busName/{$busName}Bus.php"));
+        $this->assertFileExists(app_path("Buses/$busName/{$busName}.php"));
         $this->assertFileExists(app_path("Buses/$busName/{$busName}Interface.php"));
     }
 

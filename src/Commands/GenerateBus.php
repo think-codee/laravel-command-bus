@@ -33,7 +33,7 @@ class GenerateBus extends GeneratorCommand
             [
                 'bus' => $this->argument('name')
             ],
-            "{$this->directoryPath()}/{$this->argument('name')}Bus.php"
+            "{$this->directoryPath()}/{$this->argument('name')}.php"
         );
     }
 
