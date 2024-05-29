@@ -224,6 +224,10 @@ class StoreUserCommand
     // Command implementation
 }
 ```
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
 ## Running Tests
 
 To run tests, run the following command
