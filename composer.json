@@ -1,7 +1,9 @@
 {
     "name": "think-codee/laravel-command-bus",
+    "type": "library",
     "description": "description",
     "license": "proprietary",
+    "version": "v1.0.0",
     "authors": [
         {
             "name": "Razvan Andrei Cureteu",
@@ -12,5 +14,29 @@
         "php": "^8.2",
         "laravel/framework": "^11.0"
     },
-    "type": "library"
+    "require-dev": {
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ThinkCodee\\Laravel\\CommandBus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ThinkCodee\\Laravel\\CommandBus\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ThinkCodee\\Laravel\\CommandBus\\CommandBusServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --testdox"
+    }
 }
