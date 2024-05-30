@@ -10,6 +10,11 @@ use ThinkCodee\Laravel\CommandBus\Commands\GenerateCommand;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/command_bus.php', 'command_bus');
+    }
+
     public function boot(): void
     {
         $this->bootConfig();
