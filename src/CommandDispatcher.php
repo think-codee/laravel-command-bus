@@ -32,9 +32,11 @@ class CommandDispatcher
     {
         $callable = $this->getHandlerCallable($command);
 
+        [$handler, $method] = $callable;
+
         return Pipeline::send($command)
             ->through($this->getMiddleware($callable))
-            ->then(fn (Command $command) => $this->app->call($callable, compact('command')));
+            ->then(fn (Command $command) => $handler->$method($command));
     }
 
     public function handlerResolver(?string $handlerResolver = null): static
