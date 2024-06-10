@@ -8,7 +8,7 @@
 Install with composer:
 
 ```bash
-  composer require think-codee/laravel-command-bus
+composer require think-codee/laravel-command-bus
 ```
 
 Optionally, you can publish the config file with:
@@ -136,22 +136,20 @@ php artisan command-bus:make:command GetUserQuery
 
 In this package, middleware works similarly to standard Laravel middlewares. They allow you to run code before or after a command is handled, providing a way to add common behavior to your command handling logic.
 
-To define a middleware, create a class that processes the command before and after it is handled:
+To define a middleware, create a class that processes the command before and/or after it is handled:
 
 ```php
-class ExampleMiddleware
+class LogExceptionsMiddleware
 {
     public function handle(Command $command, Closure $next)
     {
-        // Code to run before the command is handled
-        // ...
-
-        $response = $next($command);
-
-        // Code to run after the command is handled
-        // ...
-
-        return $response;
+        try {
+            return $next($command);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            
+            throw $e;
+        }
     }
 }
 ```
@@ -165,39 +163,50 @@ You can register middleware to specific command handlers using attributes:
 * use the `#[ResetMiddleware]` attribute to remove all existing middleware for that command (registered in config) and apply only the specified middleware.
 
 ```php
-#[Middleware([ExampleMiddleware::class], true)]
-class TestCommandHandler
+
+// This will prepend LogExceptionsMiddleware to the existing middleware
+#[Middleware([LogExceptionsMiddleware::class], true)]
+class StoreUserCommandHandler
 {
-    public function handle(TestCommand $command): int
+    public function handle(StoreUserCommand $command): int
     {
-        // This will prepend ExampleMiddlware to the existing middleware
+        // Handle the command, e.g., process $command->email
+        
+        // $user = User::create(['email' => $command->email]);
+        // return $user->id;
     }
 }
 ```
 
 ```php
+
+// Handle the command with LogExceptionsMiddleware only
 #[ResetMiddleware]
-#[Middleware([ExampleMiddleware::class])]
-class AnotherCommandHandler
+#[Middleware([LogExceptionsMiddleware::class])]
+class StoreUserCommandHandler
 {
-    public function handle(AnotherCommand $command): int
+    public function handle(StoreUserCommand $command): int
     {
-        // Handle the command with ExampleMiddleware only
+        // Handle the command, e.g., process $command->email
+        
+        // $user = User::create(['email' => $command->email]);
+        // return $user->id;
     }
 }
 ```
 
-You can still register middlewares in the configuration file, assigning them to specific buses:
+You can still register middlewares in the configuration file, assigning them to specific buses. The middleware will be applied to all commands processed by the bus.
 
 ```php
-'query' => [
-    'class' => \App\Buses\Query\QueryBus::class,
-    'interface' => \App\Buses\Query\QueryBusInterface::class,
-    'alias' => 'bus.query',
+'default' => [
+    'class' => \ThinkCodee\Laravel\CommandBus\Default\Bus::class,
+    'interface' => \ThinkCodee\Laravel\CommandBus\Contracts\Bus::class,
+    'alias' => 'bus.default',
     'middleware' => [
-        \App\Buses\Query\ExampleMiddleware::class
-    ]
-];
+        LogExceptionsMiddleware::class,
+        //e.g. ExecuteWithinDatabaseTransaction
+    ],
+],
 ```
 
 ### Handler resolvers
