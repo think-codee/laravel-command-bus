@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-command-bus` will be documented here.
 
+## 1.0.2 - 2024-06-11
+
+* Docs update
+
 ## 1.0.1 - 2024-06-10
 
 * Hotfix
